@@ -1,0 +1,5 @@
+# Dependências (Ignora em todas as pastas)
+node_modules/
+build/
+dist/
+
