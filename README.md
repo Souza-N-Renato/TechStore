@@ -1,104 +1,116 @@
-🖥️ TechStore - E-commerce Fullstack
+# 🖥️ TechStore - E-commerce Fullstack
 
 Bem-vindo ao projeto TechStore! Este é um sistema completo de e-commerce de computadores, desenvolvido com React (Frontend), Flask (Backend) e MongoDB (Banco de Dados), totalmente conteinerizado com Docker.
 
-🚀 Pré-requisitos
+O projeto segue uma arquitetura modular, separando responsabilidades de autenticação, produtos e interface de utilizador.
 
-Antes de começar, você precisa ter instalado na sua máquina:
+---
+## 🚀 Pré-requisitos
 
-Docker Desktop (ou Docker Engine no Linux)
+Antes de começar, certifique-se de ter instalado na sua máquina:
 
-Git (opcional, para clonar o repositório)
+* Docker Desktop (ou Docker Engine no Linux)
 
-Nota: Se você usa Windows, certifique-se de que o Docker Desktop está aberto e rodando (ícone da baleia na barra de tarefas).
+*  Git (opcional, para clonar o repositório)
 
-🛠️ Como Rodar o Projeto
+M Nota para Windows: Certifique-se de que o Docker Desktop está aberto e a correr (ícone da baleia na barra de tarefas) antes de executar os comandos.
 
-Siga os passos abaixo para iniciar a aplicação:
+---
+## 🛠️ Como Rodar o Projeto
 
-1. Clonar ou Baixar o Projeto
+Siga os passos abaixo para iniciar a aplicação do zero:
 
-Se você baixou o arquivo ZIP, extraia-o. Se for clonar via Git:
+### 1. Clonar ou Baixar
+
+Se baixou o ficheiro ZIP, extraia-o. Se usar Git:
+
+```bash
 
 git clone [https://seu-repositorio.git](https://seu-repositorio.git)
 cd nome-da-pasta-do-projeto
 
+```
 
-2. Iniciar com Docker Compose
+### 2. Iniciar com Docker Compose
 
-Abra o terminal (CMD, PowerShell ou Terminal do VS Code) dentro da pasta raiz do projeto (onde está o arquivo docker-compose.yml) e execute:
+Abra o terminal na pasta raiz do projeto (onde está o docker-compose.yml) e execute:
+
+```bash
 
 docker-compose up --build
+```
+
+* up: Sobe os serviços (Frontend, Backend, Mongo).
+
+--build: Força a recriação das imagens (essencial se alterou bibliotecas ou Dockerfiles).
+
+### 3. Aguarde a Inicialização
+
+## O terminal mostrará vários logs. Aguarde até ver mensagens como:
+
+* Backend: Running on http://0.0.0.0:5000
+
+* Frontend: Compiled successfully!
+
+## 🌐 Acessando a Aplicação
+
+Com os containers a rodar, abra o seu navegador:
+
+* Loja (Frontend): http://localhost:3000
+
+* API (Backend): http://localhost:5000/products
 
 
-up: Sobe os containers.
 
---build: Garante que as imagens sejam recriadas com as últimas alterações do código.
 
-3. Aguarde a Inicialização
 
-O terminal mostrará vários logs. Aguarde até ver mensagens indicando que o servidor está rodando:
+## 🐛 Solução de Problemas Comuns
 
-Backend: Running on http://0.0.0.0:5000
+* 1. "Port 3000 is already in use"
 
-Frontend: Compiled successfully!
+Outro serviço está a usar a porta.
 
-🌐 Acessando a Aplicação
+Solução: Encerre o processo ou rode docker-compose down para limpar containers antigos.
 
-Com os containers rodando, abra seu navegador e acesse:
+* 2. Erro "Exited (1)" no Backend
 
-Loja (Frontend): http://localhost:3000
+Geralmente indica falta de dependências.
 
-API (Backend): http://localhost:5000/products (Para testar se a API responde)
+Solução: Verifique se backend/requirements.txt tem PyJWT e rode docker-compose up --build.
 
-🛑 Comandos Úteis do Docker
+* 3. Login falha mesmo com cadastro
 
-Aqui estão os comandos que você mais vai usar no dia a dia:
+* O sistema pode diferenciar maiúsculas/minúsculas ou ter espaços extra.
 
-Ação
+Dica: O Backend imprime logs no terminal. Procure por:
 
-Comando
+### ❌ FALHA: Usuário não encontrado.
 
-Parar o projeto
+-> Nome no banco: 'joao' | Tentativa: 'Joao'
 
-Pressione Ctrl + C no terminal onde o docker está rodando.
+### 🛑 Comandos Úteis
 
-Parar e remover containers
+
+###Ação
+
+### Comando
+
+> Parar tudo
+
+Ctrl + C no terminal
+
+> Remover containers
 
 docker-compose down
 
-Limpar tudo (Resetar Banco)
+> Resetar Banco de Dados
 
-docker-compose down -v (O -v apaga o volume do banco de dados).
+docker-compose down -v (Apaga o volume mongo-data)
 
-Ver logs de erro
+> Reiniciar só o Backend
 
-docker logs <id_do_container>
+<img width="1147" height="945" alt="image" src="https://github.com/user-attachments/assets/9b1d03f2-d079-478e-9ff0-4f35e2009b3d" />
 
-Reiniciar só o backend
+
 
 docker-compose restart backend
-
-🐛 Solução de Problemas Comuns
-
-1. "Port 3000/5000 is already in use"
-
-Isso significa que outro programa (ou um container antigo) está usando a porta.
-
-Solução: Feche o programa conflitante ou rode docker-compose down para garantir que nada ficou "preso".
-
-2. Erro "Exited (1)" no Backend
-
-Geralmente indica falta de alguma biblioteca Python ou erro de sintaxe.
-
-Solução: Verifique se o arquivo requirements.txt está atualizado e rode docker-compose up --build novamente.
-
-3. Não consigo logar mesmo após cadastrar
-
-O sistema diferencia maiúsculas de minúsculas ou pode haver espaços extras.
-
-Dica: O Backend possui um modo de debug. Tente logar e olhe o terminal do Docker. Ele mostrará mensagens como:
-
-❌ FALHA: Usuário não encontrado.
---- Usuários Existentes no Banco ---
--> Nome: 'joao silva' | Doc: '12345'
